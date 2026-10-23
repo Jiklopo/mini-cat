@@ -63,21 +63,37 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         get { UserDefaults.standard.bool(forKey: "showText") }
         set { UserDefaults.standard.set(newValue, forKey: "showText") }
     }
+    private var character: String {
+        get { UserDefaults.standard.string(forKey: "character") ?? Self.characters[0].name }
+        set { UserDefaults.standard.set(newValue, forKey: "character") }
+    }
+
+    private static let characters: [(name: String, prefix: String, template: Bool)] = [
+        ("Cat", "cat-frame-", true), ("Megumin", "megumin-", false), ("Frieren", "frieren-", false),
+    ]
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        frames = (0..<5).compactMap { i in
-            guard let url = Bundle.main.url(forResource: "cat-frame-\(i)", withExtension: "png"),
-                  let image = NSImage(contentsOf: url) else { return nil }
-            image.size = NSSize(width: image.size.width / 2, height: image.size.height / 2)
-            image.isTemplate = true
-            return image
-        }
         statusItem.button?.imagePosition = .imageLeading
-        statusItem.button?.image = frames.first
+        loadFrames()
         buildMenu()
         _ = monitor.usage()
         sampleTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in self?.sample() }
         scheduleAnimation()
+    }
+
+    private func loadFrames() {
+        let selected = Self.characters.first { $0.name == character } ?? Self.characters[0]
+        frames = (Bundle.main.urls(forResourcesWithExtension: "png", subdirectory: nil) ?? [])
+            .filter { $0.lastPathComponent.hasPrefix(selected.prefix) }
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+            .compactMap { url in
+                guard let image = NSImage(contentsOf: url) else { return nil }
+                image.size = NSSize(width: image.size.width / 2, height: image.size.height / 2)
+                image.isTemplate = selected.template
+                return image
+            }
+        frameIndex = 0
+        statusItem.button?.image = frames.first
     }
 
     private func buildMenu() {
@@ -86,6 +102,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(memItem)
         menu.addItem(swapItem)
         menu.addItem(.separator())
+        let characterMenu = NSMenu()
+        for c in Self.characters {
+            let item = NSMenuItem(title: c.name, action: #selector(selectCharacter), keyEquivalent: "")
+            item.target = self
+            item.state = c.name == character ? .on : .off
+            characterMenu.addItem(item)
+        }
+        let characterItem = NSMenuItem(title: "Character", action: nil, keyEquivalent: "")
+        characterItem.submenu = characterMenu
+        menu.addItem(characterItem)
         showTextItem.target = self
         showTextItem.state = showText ? .on : .off
         menu.addItem(showTextItem)
@@ -141,6 +167,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         showText.toggle()
         showTextItem.state = showText ? .on : .off
         statusItem.button?.title = showText ? String(format: " %.0f%%", cpu) : ""
+    }
+
+    @objc private func selectCharacter(_ sender: NSMenuItem) {
+        character = sender.title
+        sender.menu?.items.forEach { $0.state = $0 === sender ? .on : .off }
+        loadFrames()
     }
 
     @objc private func toggleLogin() {

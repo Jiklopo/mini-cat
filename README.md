@@ -28,6 +28,7 @@ Requires macOS 13+. Builds a universal binary (Apple Silicon + Intel).
 
 Click the cat:
 
+- **Character** — Cat, Megumin (*Konosuba*) or Frieren (*Frieren: Beyond Journey's End*)
 - **Show CPU % in Menu Bar** — shows the number next to the cat
 - **Launch at Login** — if it fails, add MiniCat in System Settings → General → Login Items
 
@@ -41,7 +42,18 @@ Edit `speedCurve` in `main.swift` — pairs of CPU % and seconds per frame, inte
 
 Then rebuild and copy to `/Applications` again.
 
+## Adding a character
+
+Put the frames in `Resources/` as `<prefix>00.png`, `<prefix>01.png`, … (40 px tall, transparent
+background) and add a line to `characters` in `main.swift`. `template: true` turns the frames into a
+one-color silhouette that follows the light/dark menu bar; `false` keeps their colors.
+
 ## Credits
 
 Cat animation frames are from [RunCat Neo](https://github.com/runcat-dev/RunCatNeo),
 licensed under Apache-2.0 — see `Resources/LICENSE-RunCatNeo`.
+
+Megumin and Frieren frames are cut from the Discord emoji
+[megumindanceemoji](https://communityone.io/emoji/megumindanceemoji-609238208382763020/) and
+[frierenbeyondfuchsia](https://communityone.io/emoji/frierenbeyondfuchsia-1308629794505625700/).
+The characters belong to their respective rights holders.
