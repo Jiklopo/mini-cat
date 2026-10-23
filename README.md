@@ -9,7 +9,7 @@ No Xcode, App Store or Apple ID needed — it builds with the Command Line Tools
 
 ```sh
 xcode-select --install   # skip if already installed
-git clone <repo-url> MiniCat
+git clone https://github.com/Jiklopo/mini-cat.git MiniCat
 cd MiniCat
 ./build.sh
 cp -R build/MiniCat.app /Applications/
