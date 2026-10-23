@@ -1,4 +1,10 @@
-# MiniCat
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/cat-dark.gif">
+    <img src="docs/cat-light.gif" width="28" height="18" alt="MiniCat running at 40% CPU">
+  </picture>
+  MiniCat
+</h1>
 
 A tiny RunCat-style menu bar app for macOS: a cat that runs faster as CPU load goes up.
 The menu shows CPU, memory (GB and %) and swap usage.
