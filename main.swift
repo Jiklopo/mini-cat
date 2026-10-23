@@ -69,7 +69,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private static let characters: [(name: String, prefix: String, template: Bool)] = [
-        ("Cat", "cat-frame-", true), ("Megumin", "megumin-", false), ("Frieren", "frieren-", false),
+        ("Cat", "cat-frame-", true), ("Fat Bongo Cat", "bongo-frame-", true),
+        ("Megumin", "megumin-", false), ("Frieren", "frieren-", false),
     ]
 
     func applicationDidFinishLaunching(_ notification: Notification) {

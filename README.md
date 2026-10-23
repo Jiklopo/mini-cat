@@ -28,7 +28,7 @@ Requires macOS 13+. Builds a universal binary (Apple Silicon + Intel).
 
 Click the cat:
 
-- **Character** — Cat, Megumin (*Konosuba*) or Frieren (*Frieren: Beyond Journey's End*)
+- **Character** — Cat, Fat Bongo Cat, Megumin (*Konosuba*) or Frieren (*Frieren: Beyond Journey's End*)
 - **Show CPU % in Menu Bar** — shows the number next to the cat
 - **Launch at Login** — if it fails, add MiniCat in System Settings → General → Login Items
 
